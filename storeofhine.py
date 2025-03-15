@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # Load the product data
-df_products = pd.read_csv('san_pham_tien_loi_100.csv')
+df_products = pd.read_csv('san_pham_tien_loi_100.csv', encoding='latin1')
 
 # Initialize session state for cart
 if 'cart' not in st.session_state:
