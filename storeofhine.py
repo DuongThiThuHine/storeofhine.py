@@ -55,8 +55,8 @@ else:
     
     # Cấu hình VNPAY API
     VNPAY_URL = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"
-    VNPAY_TMNCODE = "YOUR_TMN_CODE"
-    VNPAY_HASHSECRET = "YOUR_SECRET_KEY"
+    VNPAY_TMNCODE = "AAHR0SYM"
+    VNPAY_HASHSECRET = "7I1TU9VLX9UJ8LYXX4SGKBBGN3BIS9LD"
     RETURN_URL = "https://storeofhine.streamlit.app"  # URL trang của bạn
     
     # Hàm tạo URL thanh toán VNPAY
