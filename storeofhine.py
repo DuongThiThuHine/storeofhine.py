@@ -47,3 +47,8 @@ else:
         st.sidebar.write(", ".join(st.session_state.cart))
     else:
         st.sidebar.write("Your cart is empty.")
+        
+    # Product Payment
+    if st.button("Pay"):
+    st.success("Payment successful! Thank you for your purchase.")
+    st.session_state.cart = []
