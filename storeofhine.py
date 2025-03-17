@@ -60,36 +60,41 @@ else:
     RETURN_URL = "https://storeofhine.streamlit.app"  # URL trang của bạn
     
     # Hàm tạo URL thanh toán VNPAY
-    def create_vnpay_url(order_id, amount):
+    def create_payment_url(order_id, amount):
         params = {
             "vnp_Version": "2.1.0",
             "vnp_Command": "pay",
-            "vnp_TmnCode": VNPAY_TMNCODE,
-            "vnp_Amount": amount * 100,  # VNPAY yêu cầu đơn vị là VND * 100
-            "vnp_CreateDate": datetime.datetime.now().strftime("%Y%m%d%H%M%S"),
+            "vnp_TmnCode": VNPAY_TMN_CODE,
+            "vnp_Amount": int(amount) * 100,  # Chuyển đổi sang đơn vị VNĐ
             "vnp_CurrCode": "VND",
-            "vnp_IpAddr": "0.0.0.0",  # Đặt IP mặc định
+            "vnp_TxnRef": order_id,
+            "vnp_OrderInfo": f"Thanh toán đơn hàng {order_id}",
             "vnp_Locale": "vn",
-            "vnp_OrderInfo": f"Thanh toan don hang {order_id}",
-            "vnp_OrderType": "other",
-            "vnp_ReturnUrl": RETURN_URL,
-            "vnp_TxnRef": str(order_id),
+            "vnp_ReturnUrl": VNPAY_RETURN_URL,
+            "vnp_CreateDate": "20250317120000",  # Định dạng YYYYMMDDHHmmss
         }
-    
+        
         # Sắp xếp tham số theo thứ tự alphabet
         sorted_params = sorted(params.items())
-        query_string = "&".join(f"{k}={v}" for k, v in sorted_params)
+        query_string = urllib.parse.urlencode(sorted_params)
     
-        # Tạo chữ ký (signature) để bảo mật
-        hash_data = "&".join(f"{k}={v}" for k, v in sorted_params)
-        hash_value = hashlib.sha256((VNPAY_HASHSECRET + hash_data).encode()).hexdigest()
-
+        # Tạo chuỗi chữ ký HMAC SHA512
+        sign_data = query_string + VNPAY_HASH_SECRET
+        secure_hash = hashlib.sha512(sign_data.encode()).hexdigest()
+        
         # Tạo URL thanh toán
         payment_url = f"{VNPAY_URL}?{query_string}&vnp_SecureHash={secure_hash}"
-        return payment_url        
+        return payment_url
     
-    # Hiển thị nút thanh toán
-    if st.button("🛒 Pay by VNPAY"):
+    # Giao diện Streamlit
+    st.title("Cửa hàng trực tuyến - Thanh toán VNPAY")
+    
+    # Nhập thông tin đơn hàng
+    order_id = st.text_input("Nhập mã đơn hàng", "123456")
+    amount = st.number_input("Nhập số tiền thanh toán (VND)", min_value=1000, value=50000, step=1000)
+    
+    # Nút tạo thanh toán
+    if st.button("Tạo thanh toán"):
         payment_url = create_payment_url(order_id, amount)
         st.success("Click vào nút bên dưới để thanh toán:")
         st.markdown(f"[🔗 Thanh toán ngay]({payment_url})", unsafe_allow_html=True)
