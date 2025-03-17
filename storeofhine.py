@@ -10,8 +10,6 @@ else:
     # Load the product data
     df_products = pd.read_csv(file_path, encoding='latin1')
 
-    # Kiểm tra cột có tồn tại không
-    st.write("🛠️ Debugging Columns:", df_products.columns)
 
     # Initialize session state for cart
     if 'cart' not in st.session_state:
