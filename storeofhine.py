@@ -30,7 +30,7 @@ else:
 
         # Hiển thị ảnh sản phẩm (kiểm tra nếu đường dẫn hợp lệ)
         if isinstance(row.get('Image', ''), str) and row['Image'].startswith('http'):
-            st.image(row['Image'], caption=row['Product'], use_column_width=True)
+            st.image(row['Image'], caption=row['Product'], use_container_width=True)
         else:
             st.warning("🚫 No image available for this product.")
 
