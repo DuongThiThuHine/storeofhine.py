@@ -16,7 +16,7 @@ else:
         st.session_state.cart = []
 
     # Title of the web page
-    st.title("🛍️ Product List")
+    st.title("🛍️ Products are available at our convenience store, please feel free to shop.")
 
     # Loop through the products and display them
     for index, row in df_products.iterrows():
