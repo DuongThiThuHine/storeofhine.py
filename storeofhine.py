@@ -45,9 +45,10 @@ else:
             st.success(f"{row['Product']} added to your cart!")
 
     # Display Cart in Sidebar
-    st.sidebar.header("🛒 Your Cart")
     if st.session_state.cart:
+        st.sidebar.header("🛒 Your Cart")
         st.sidebar.write(", ".join(st.session_state.cart))
+        st.sidebar.button("Proceed to Checkout")
     else:
         st.sidebar.write("Your cart is empty.")
         
