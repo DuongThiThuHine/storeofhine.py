@@ -90,6 +90,6 @@ else:
 
     # Nút thanh toán
     if st.button("Thanh toán ngay"):
-        payment_url = create_payment_url(order_id, amount)
+        payment_url = https://sandbox.vnpayment.vn/paymentv2/vpcpay.html(order_id, amount)
         st.success("✅ Nhấn vào nút bên dưới để thanh toán:")
         st.markdown(f"[🛒 Thanh toán ngay]({payment_url})", unsafe_allow_html=True)
