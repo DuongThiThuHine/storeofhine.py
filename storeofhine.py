@@ -90,10 +90,15 @@ else:
     amount = st.number_input("💰 Nhập số tiền thanh toán (VND)", min_value=1000, value=50000, step=1000)
 
     # Nút thanh toán
-    if st.button("Thanh toán ngay"):
-        payment_url = create_payment_url(order_id, amount)
-        st.success("✅ Nhấn vào nút bên dưới để thanh toán:")
-        st.markdown(f"[🛒 Thanh toán ngay]({payment_url})", unsafe_allow_html=True)
+    
+    if st.session_state.cart:
+        if st.button("Proceed to Checkout"):
+            order_id = "123456"  # Hoặc lấy từ thông tin giỏ hàng
+            amount = sum([row['Price (VND)'] for row in df_products if row['Product'] in st.session_state.cart])  # Tính tổng giá trị giỏ hàng
+            payment_url = create_payment_url(order_id, amount)
+            st.success("✅ Nhấn vào nút bên dưới để thanh toán:")
+            st.markdown(f"[🛒 Thanh toán ngay]({payment_url})", unsafe_allow_html=True)
+    else:
+        st.write("Your cart is empty. Please add products to the cart before checking out.")
 
-        st.write(f"Payment URL: {payment_url}")
 
